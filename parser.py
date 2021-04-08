@@ -3,13 +3,22 @@ import string
 
 class Parser():
 
-    @staticmethod
-    def parse_kindle_clippings(kindle_clippings_file):
+    def __init__(self, file, file_type):
+        self.file = file
+        self.file_type = file_type
+
+    def parse_file(self):
+        if self.file_type == 'kindle_clippings':
+            return self.parse_kindle_clippings()
+        else:
+            print('No parsing for given file type')
+
+    def parse_kindle_clippings(self):
         parsed_words = []
         punctuation_to_none_table = str.maketrans(
             {key: None for key in string.punctuation})
         try:
-            with open(kindle_clippings_file) as clippings:
+            with open(self.file) as clippings:
                 clippings_lines = clippings.readlines()
                 for line in clippings_lines[3::5]:
                     line_words = line.split()
@@ -24,5 +33,6 @@ class Parser():
 
 
 if __name__ == "__main__":
-    words = Parser.parse_kindle_clippings('My_Clippings.txt')
+    clippings_parser = Parser('My_Clippings.txt', 'kindle_clippings')
+    words = clippings_parser.parse_file()
     print((words))

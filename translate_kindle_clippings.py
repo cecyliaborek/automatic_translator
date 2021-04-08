@@ -2,15 +2,15 @@ from parser import Parser
 from scrap_dictionary import Translator
 import pandas as pd
 
-parser = Parser()
-translator = Translator()
+clippings_parser = Parser('My_Clippings.txt', 'kindle_clippings')
 
-extracted_clippings = parser.parse_kindle_clippings('My_Clippings.txt')
+extracted_clippings = clippings_parser.parse_file()
 
 translated_words = []
 
 for word in extracted_clippings:
-    translations = translator.translate(word)
+    word_translator = Translator(word)
+    translations = word_translator.translate()
     translated_words.append([word] + translations)
 
 translated_words_df = pd.DataFrame(
